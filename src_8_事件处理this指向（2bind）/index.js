@@ -6,12 +6,18 @@ import { createRoot } from 'react-dom/client'
 */
 
 class App extends React.Component {
-    state = {
-      count: 0
+    constructor() {
+      super()
+  
+      this.state = {
+        count: 0
+      }
+  
+      this.onIncrement = this.onIncrement.bind(this)
     }
   
     // 事件处理程序
-    onIncrement = () => {
+    onIncrement() {
       console.log('事件处理程序中的this：', this)
       this.setState({
         count: this.state.count + 1
