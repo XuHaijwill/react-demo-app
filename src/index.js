@@ -1,36 +1,43 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-
-import './css/index.css'
-
+import './index.css'
 /* 
-  props
-  组件方式
+  兄弟组件通讯
 */
 
-// class Hello extends React.Component{
-//   render(){
-//     console.log(this.props)
-//     return (<div>
-//       <h1>props: {this.props.age}</h1>
-//     </div>)
-//   }
-// }
 
-/**
- * 
- * @param {函数方式} props 
- */
-const Hello = props => {
-  // props是一个对象
-  console.log(props)
-  return (
-    <div>
-      <h1>props：{props.name}</h1>
-    </div>
-  )
+//父组件
+class Counter extends React.Component {
+  //提供共享状态
+  state = {
+    count: 0
+  }
+
+  // 提供修改状态的方法
+  onIncrement = () => {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <Child1 count={this.state.count} />
+        <Child2 onIncrement={this.onIncrement} />
+      </div>
+    )
+  }
+}
+
+const Child1 = props => {
+  return <h1>计数器：{props.count}</h1>
+}
+
+const Child2 = props => {
+  return <button onClick={() => props.onIncrement()}>+1</button>
 }
 
 const root = createRoot(document.getElementById('root'))
-root.render(<Hello name="rose" age={19} />, document.getElementById('root'))
+root.render(<Counter />)
