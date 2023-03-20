@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
   高阶组件
 */
 
+import img from './images/cat.png'
 
 function withMouse(WrappedComponent) {
   class Mouse extends React.Component {
@@ -29,8 +30,7 @@ function withMouse(WrappedComponent) {
     }
 
     render() {
-      console.log('Mouse:', this.props)
-      return <WrappedComponent {...this.state} {...this.props} />
+      return <WrappedComponent {...this.state} />
     }
 
   }
@@ -52,16 +52,33 @@ const Position = props => (
   </p>
 )
 
+// 猫捉老鼠的组件：
+const Cat = props => (
+  <img
+    src={img}
+    alt=""
+    style={{
+      position: 'absolute',
+      top: props.y - 64,
+      left: props.x - 64
+    }}
+  />
+)
+
 // 获取增强后的组件：
 const MousePosition = withMouse(Position)
 
+// 调用高阶组件来增强猫捉老鼠的组件：
+const MouseCat = withMouse(Cat)
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <h1>高阶组件</h1>
-        <MousePosition a="1" />
+        {/* 渲染增强后的组件 */}
+        <MousePosition />
+        <MouseCat />
       </div>
     )
   }
