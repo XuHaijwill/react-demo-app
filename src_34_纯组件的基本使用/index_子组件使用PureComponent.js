@@ -2,11 +2,11 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 /* 
-  虚拟DOM 和 Diff算法
+  组件性能优化：
 */
 
 // 生成随机数
-class App extends React.PureComponent {
+class App extends React.Component {
   state = {
     number: 0
   }
@@ -14,26 +14,27 @@ class App extends React.PureComponent {
   handleClick = () => {
     this.setState(() => {
       return {
-        number: Math.floor(Math.random() * 2)
+        number: Math.floor(Math.random() * 3)
       }
     })
   }
 
-  // render方法调用并不意味着浏览器中的重新渲染！！！
-  // render方法调用仅仅说明要进行diff
   render() {
-    const el = (
+    return (
       <div>
-        <h1>随机数：</h1>
-        <p>{this.state.number}</p>
+        <NumberBox number={this.state.number} />
         <button onClick={this.handleClick}>重新生成</button>
       </div>
     )
-    console.log(el)
-
-    return el
   }
+
 }
 
+class NumberBox extends React.PureComponent {
+  render() {
+    console.log('子组件中的render')
+    return <h1>随机数：{this.props.number}</h1>
+  }
+}
 const root = createRoot(document.getElementById('root'))
 root.render(<App />)
